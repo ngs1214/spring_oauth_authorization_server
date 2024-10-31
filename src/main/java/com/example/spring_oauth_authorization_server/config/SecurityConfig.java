@@ -38,24 +38,24 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityFilterChain authorizationServer(HttpSecurity http) throws Exception{
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity((http));
-
-        http
-                .getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-                .oidc(Customizer.withDefaults());
-
-        http
-                .exceptionHandling((except) -> except
-                        .defaultAuthenticationEntryPointFor(
-                                new LoginUrlAuthenticationEntryPoint("/login"),
-                                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
-                        ));
-
-        return http.build();
-    }
+//    @Bean
+//    @Order(Ordered.HIGHEST_PRECEDENCE)
+//    public SecurityFilterChain authorizationServer(HttpSecurity http) throws Exception{
+//        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity((http));
+//
+//        http
+//                .getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+//                .oidc(Customizer.withDefaults());
+//
+//        http
+//                .exceptionHandling((except) -> except
+//                        .defaultAuthenticationEntryPointFor(
+//                                new LoginUrlAuthenticationEntryPoint("/login"),
+//                                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
+//                        ));
+//
+//        return http.build();
+//    }
 
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
