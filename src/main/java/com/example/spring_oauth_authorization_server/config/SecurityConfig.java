@@ -1,5 +1,6 @@
 package com.example.spring_oauth_authorization_server.config;
 
+import com.example.spring_oauth_authorization_server.oauth2.JpaRegisteredClientRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -9,6 +10,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
@@ -38,29 +40,30 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    @Order(Ordered.HIGHEST_PRECEDENCE)
-//    public SecurityFilterChain authorizationServer(HttpSecurity http) throws Exception{
-//        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity((http));
-//
-//        http
-//                .getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-//                .oidc(Customizer.withDefaults());
-//
-//        http
-//                .exceptionHandling((except) -> except
-//                        .defaultAuthenticationEntryPointFor(
-//                                new LoginUrlAuthenticationEntryPoint("/login"),
-//                                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
-//                        ));
-//
-//        return http.build();
-//    }
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public SecurityFilterChain authorizationServer(HttpSecurity http) throws Exception{
+        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity((http));
+
+        http
+                .getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+                .oidc(Customizer.withDefaults());
+
+        http
+                .exceptionHandling((except) -> except
+                        .defaultAuthenticationEntryPointFor(
+                                new LoginUrlAuthenticationEntryPoint("/login"),
+                                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
+                        ));
+
+        return http.build();
+    }
 
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
                 .build();
     }
+
 
 }
